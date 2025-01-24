@@ -1,0 +1,77 @@
+.resume-container {
+    padding: 3rem 1rem;
+    background-color: #f5f5f5;
+    text-align: center;
+  }
+  
+  .resume-container h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #6a0572;
+    font-weight: bold;
+  }
+  
+  .resume-container p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #333;
+  }
+  
+  .resume-download {
+    display: inline-block;
+    margin: 1rem 0;
+    padding: 0.8rem 2rem;
+    background-color: #6a0572;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+  
+  .resume-download:hover {
+    background-color: #8a2be2;
+    color: #fff;
+  }
+  
+  .resume-section {
+    margin-top: 2rem;
+  }
+  
+  .resume-section h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #333;
+    text-align: left;
+  }
+  
+  .resume-section ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+  }
+  
+  .resume-section ul li {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: #555;
+    display: flex;
+    align-items: center;
+  }
+  
+  .resume-section ul li::before {
+    content: "•";
+    color: #6a0572;
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+  }
+  
+  .resume-image {
+    margin-top: 2rem;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  

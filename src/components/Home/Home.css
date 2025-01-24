@@ -1,0 +1,49 @@
+/* Home Page Styling */
+.home-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #cce7ff, #ffffff); /* Light blue to white gradient */
+}
+
+.hero {
+  text-align: center;
+  color: #2c3e50; /* Darker blue for text */
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #34495e; /* Strong blue-gray for emphasis */
+}
+
+.hero p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+}
+
+.hero-gif {
+  width: 300px;
+  height: auto;
+  margin-bottom: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.primary-btn {
+  background-color: #2c3e50;
+  color: white;
+  padding: 0.8rem 2rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.primary-btn:hover {
+  background-color: #1a5276; /* Slightly darker blue */
+}

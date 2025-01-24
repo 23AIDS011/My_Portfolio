@@ -1,0 +1,11 @@
+.App {
+  text-align: center;
+}
+
+#no-scroll {
+  overflow: hidden;
+}
+
+#scroll {
+  overflow: auto;
+}

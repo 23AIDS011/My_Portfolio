@@ -1,0 +1,46 @@
+/* Projects Page */
+.projects-container {
+  padding: 3rem 1rem;
+  background: linear-gradient(135deg, #ffffff, #cce7ff); /* White to light blue gradient */
+}
+
+.projects-container h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.project-card {
+  background-color: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.project-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.project-card span {
+  display: block;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #6a0572;
+}
+
+/* Fixing the GIF size */
+.project-gif {
+  width: 100%; /* Ensures the GIF fits within the card */
+  height: 200px; /* Sets a fixed height */
+  object-fit: cover; /* Ensures the aspect ratio is maintained and the GIF covers the space */
+  border-radius: 8px; /* Adds rounded corners to the GIF */
+  margin-bottom: 1rem; /* Adds space between the GIF and the rest of the content */
+}
