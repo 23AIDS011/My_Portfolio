@@ -1,0 +1,693 @@
+Creating an React Project: 
+Command Prompt:
+npx create-react-app name
+Here name--->training
+
+Note: npx--->node package execute...It is a tool that comes with npm (version 5.2 and later) and is used to execute packages directly from the npm registry without globally installing them on your system.
+
+If u get any error...then...
+
+cd training
+npm start
+
+It will redirect to an new page...if u get any errors like module not found then install that module...for example....
+
+Compiled with problems:
+×
+ERROR in ./src/reportWebVitals.js 5:4-24
+Module not found: Error: Can't resolve 'web-vitals' in 'C:\React_Projects\training\src'...
+
+Then install...using this command:
+
+npm install web-vitals
+
+Then again start your project:npm start
+
+Your application now runs error free....
+
+========================================================================================
+
+To start the application that is created using VSCode:
+
+Steps:
+Open the folder
+Click on the terminal from the top then click new terminal
+Then just type npm start
+The application will be running in the explorer...
+To stop/terminate the batch job just press ctrl+c in the terminal...once you refresh the explorer page it will show like cant find/cant connect...this means the process/application has been stopped...
+
+==========================================================================================
+
+Note: npm stands for Node Package Manager. It is the default package manager for Node.js and is used to manage JavaScript packages or libraries. These packages can include tools, frameworks, or reusable code that developers can use in their projects.
+
+
+Feature 			npm							npx
+
+Primary 	Purpose	Install and manage packages.			Execute packages without installing.
+Usage		Installs the package locally or globally.	 	Runs the package temporarily.
+Example		npm install -g create-react-app				npx create-react-app my-app
+
+Note:-g (Global Installation)...As of recent versions of create-react-app, global installation is no longer recommended because:
+The globally installed version might become outdated, causing compatibility issues.
+It is better to use npx for creating React apps, as it always fetches the latest version:
+npx create-react-app my-app
+
+===========================================================================================
+
+Datas.js
+
+function Datas(){//Can be in any name
+    var name="Akshaya Natesan";
+    var city='Karur'
+    const ans=`I am from ${city}`//Template Literal
+    return(
+        <><h6>i am {name}</h6><h5>{ans}</h5></>//Use this angular brackets when u want to use multiple html tags...U can also use div but it will be displayed in the console when u inspect in the explorer/browser...
+    )
+}
+
+export default Datas//If not specified will get error...
+
+index.js:Main file
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import reportWebVitals from './reportWebVitals';
+import Datas from './Datas'
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+//The createRoot() method in React 18 prepares the HTML element with id="root" to display the React app, enabling faster and more efficient rendering.
+root.render(
+  <React.StrictMode>
+    <Datas />
+  </React.StrictMode>
+);
+reportWebVitals();
+
+Note:`React.StrictMode` is a tool that helps identify potential issues in your React app during development, like unsafe methods or deprecated features. It doesn't show any UI but provides warnings to improve code quality. It doesn't affect the production build.
+
+reportWebVitals() is a function that measures how well your app is performing, like how fast it loads or how quickly it responds to user actions.
+============================================================================================
+
+
+Including another component called Display into Datas:
+
+import Display from './Display'
+
+function Datas(){
+    var name="Akshaya Natesan";
+    var city='Karur'
+    const ans=`I am from ${city}`//Template Literal
+    return(
+        <><><h6>i am {name}</h6><h5>{ans}</h5></> 
+            <Display /></>//Use this angular brackets when u want to use multiple html tags...U can also use div but it will be displayed in the console when u inspect in the explorer/browser...
+    )
+}
+
+export default Datas
+
+Output:
+
+i am Akshaya Natesan
+I am from Karur
+Hiii...Hellooo...Welcomeee...//This is the data from Display.js file...
+
+Note: Here the functions are called as components
+
+==============================================================================================
+Sending datas from one component to another--->props:
+
+Datas.js:
+
+import Display from './Display'
+
+function Datas(){
+    var name="Akshaya Natesan";
+    var city='Karur'
+    const ans=`I am from ${city}`//Template Literal
+    return(
+        <><><h6>i am {name}</h6><h5>{ans}</h5></> 
+            <Display n={name} /></>//Can send n number of datas...
+    )
+}
+
+export default Datas
+
+Display.js:
+
+function Display(values){
+    const{n}=values
+    return(
+    <h1>Hiii...Hellooo...Welcomeee...{n}</h1>
+    )
+}
+
+export default Display
+
+Output: i am Akshaya Natesan
+I am from Karur
+Hiii...Hellooo...Welcomeee...Akshaya Natesan
+
+Note: can send default bvalues also like...<Display n={name} roll={roll} gender='Female' /></>
+Can also pass object also but before printing you have to destructure it...
+<Display n={name} roll={roll} gender='Female' obj={person} arrays={arrays} /></>
+Arrays also can be sent...
+
+
+==============================================================================================
+
+
+Can define function like this also:
+
+export default function Display(){
+
+-------
+
+}
+
+==============================================================================================
+
+export default function States(){
+    var clr='blue'
+    console.log("b4  : ",clr)
+     function change()
+     {
+        clr='red'
+
+        console.log('after.......',clr)
+        
+     }
+     
+  
+    return(
+        <>
+        <h1>i love {clr} color</h1>
+        <button onClick={change}>click here!! </button>
+        </>
+    )
+}
+
+Note:For this the updated colors output will be displayed only in the console but not in the browser...to get updated in the browser/explorer we can use usestate(hooks concept)...
+
+==============================================================================================
+
+import { useState } from "react"
+
+export default function States(){
+    //var clr='blue'
+    var [clr,setClr]= useState('blue')
+    console.log("b4  : ",clr)
+      
+    return(
+        <>
+        <h1>i love {clr} color</h1>
+        <button onClick={()=>{setClr(clr='red')} }>click here!! </button>
+        </>
+    )
+}
+
+================================================================================================
+
+import { useState } from "react"
+
+export default function States(){
+    
+    var [clr,setClr]= useState('blue')
+    var [name,setName]= useState('sai')
+     
+    return(
+        <>
+        <h1> my name is {name} <br></br>i love {clr} color</h1>
+        <button onClick={()=>{ setClr('red') ; setName('demo')}
+            }>click here!! </button>
+        </>
+    )
+}
+
+================================================================================================
+
+import { useState } from "react"
+
+export default function States(){
+    
+    // var [clr,setClr]= useState('blue')
+    // var [name,setName]= useState('sai')
+     var [data,setData]=useState(
+        {
+            clr:'pink',
+            name:'sai'
+        }
+     )
+     
+    return(
+        <>
+        <h1> my name is {data.name}<br></br> i love {data.clr} color</h1>
+        <button onClick={()=>{ setData(
+            {
+                
+                    clr:'green',
+                    name:'ram'
+                 
+            }
+        )}
+            }>click here!! </button>
+        </>
+    )
+}
+
+
+import { useState } from "react"
+
+export default function States(){
+    
+    // var [clr,setClr]= useState('blue')
+    // var [name,setName]= useState('sai')
+     var [data,setData]=useState(
+        {
+            clr:'pink',
+            name:'sai'
+        }
+     )
+     
+    return(
+        <>
+        <h1> my name is {data.name}<br></br> i love {data.clr} color</h1>
+        <button onClick={()=>{ setData(
+            {
+                
+                    clr:'green',
+                    name:'ram'
+                 
+            }
+        )}
+            }>click here!! </button>
+            <button onClick={()=>{ setData(
+            {...data,//Spread operator to prevent the loss of data...
+                
+                    clr:'gray'
+                 
+            }
+        )}
+            }>Update color </button>
+        </>
+    )
+}
+
+================================================================================================
+
+Map Functions: 
+
+a=[1,2,30]
+let s=0
+
+a.map((d)=>{s=s+d})
+console.log(s)
+Output:33
+
+================================================================================================
+
+a=[1,2,30]
+let s=0
+
+a.map((d)=>{console.log(d)})
+
+Output:1
+2
+30
+
+================================================================================================
+
+import { useEffect, useState } from "react"
+
+export default function Test(){
+    const[count1,setCount1]=useState(0);
+    const[ count2,setCount2]=useState(0);
+    useEffect(()=>{
+        console.log("Rendering...")
+    })
+    return (
+        <>
+          <h1>The count is:{count1}</h1>
+          <h1>The count is:{count2}</h1>
+          <button
+            onClick={() => {
+              setCount1(count1+1)
+            }}
+            
+          >
+            Click here for count1!!
+            </button>
+            <button
+            onClick={() => {
+              setCount2(count2+1)
+            }}
+            
+          >
+            Click here for count2!!
+            </button>
+            </>
+    )
+}
+
+Note:<></>--->Fragmented Tag
+
+================================================================================================
+Dependency Array:Stop unnecessar rendering...[]-->representation...if []-->rendering will not be visible in the console
+[count1]--->count1's rendering alone will be visible...[count1,count2]-->both rendering will be visible...
+
+Note:Once we start the application the webpage renders...later it will not...
+
+import { useEffect, useState } from "react"
+
+export default function Test(){
+    const[count1,setCount1]=useState(0);
+    const[ count2,setCount2]=useState(0);
+    useEffect(()=>{
+        console.log("Rendering...")
+    },[count1,count2])
+    return (
+        <>
+          <h1>The count is:{count1}</h1>
+          <h1>The count is:{count2}</h1>
+          <button
+            onClick={() => {
+              setCount1(count1+1)
+            }}
+            
+            
+          >
+            Click here for count1!!
+            </button>
+            <button
+            onClick={() => {
+              setCount2(count2+1)
+            }}
+            
+          >
+            Click here for count2!!
+            </button>
+            </>
+    )
+}
+
+================================================================================================
+
+Write a program once the count reaches 10 set the count back to zero(0):
+
+import { useEffect, useState } from "react"
+
+export default function Test(){
+    const[count1,setCount1]=useState(0);
+    const[ count2,setCount2]=useState(0);
+    useEffect(() => {
+        if (count1 === 10) {
+          setTimeout(() => {
+            setCount1(0);
+          }, 250);
+        }
+        console.log("Rendering...");
+      }, [count1]);
+    
+      useEffect(() => {
+        if (count2 === 10) {
+          setTimeout(() => {
+            setCount2(0);
+          }, 250);
+        }
+        console.log("Rendering for count2...");
+      }, [count2]);
+    
+    return (
+        <>
+          <h1>The count is:{count1}</h1>
+          <h1>The count is:{count2}</h1>
+          <button
+            onClick={() => {
+              setCount1(count1+1)
+            }}
+            
+            
+          >
+            Click here for count1!!
+            </button>
+            <button
+            onClick={() => {
+              setCount2(count2+1)
+            }}
+            
+          >
+            Click here for count2!!
+            </button>
+            </>
+    )
+}
+
+================================================================================================
+
+useReducer
+
+import {   useReducer } from "react"
+export default function Demo(){
+    const transcationReducer=(balance,action)=>{
+            switch(action.type)
+            {
+                case 'WITHDRAW': 
+                    return balance - action.payload
+                case 'DEPOSIT': 
+                    return balance + action.payload
+                     
+            }
+
+
+
+    }
+
+    const withdraw=(amount)=>{
+        dispatch({type:'WITHDRAW',payload:amount})
+    }
+    const deposit=(amount)=>{
+        dispatch({type:'DEPOSIT',payload:amount})
+    }
+     const[balance,dispatch]= useReducer(transcationReducer,1000)
+    return(
+        <>
+        <h1>the balance val is {balance}</h1>
+         
+        <button onClick={()=>{withdraw(500)}}>Withdraw</button>
+        <button onClick={()=>{deposit(1000)}}>Deposit</button>
+
+      
+       
+        </>
+
+
+    )
+}
+
+================================================================================================
+
+
+When to Use Which Hook?
+Use useState:
+For straightforward state like toggles, counters, or form fields.
+Use useEffect:
+When you need to handle side effects, such as fetching data or updating the DOM.
+Use useReducer:
+When state logic is complex, involves multiple actions, or when multiple pieces of state are interdependent.
+
+================================================================================================
+
+Props drilling:
+
+import { useState } from "react"
+ 
+
+export default function Parent1(){
+    const[user,setuser]=useState('sai')
+    const a=()=>{
+        setuser()
+    }
+    return(
+         <>
+         <h1>Parent</h1>
+         <C1 user={user}/>
+         </>
+    )
+
+}
+ function C1(val){
+    const{user}=val
+    
+    return(
+         <>
+         <h1>C1</h1>
+         <C2 user={user}/>
+         </>
+    )
+
+}
+function C2(val){
+    const{user}=val
+    
+    return(
+         <>
+         <h1>C2</h1>
+         <C3 user={user}/>
+         </>
+    )
+
+}
+
+ function C3(val){
+    const{user}=val
+    
+    return(
+         <>
+         <h1>C3</h1>
+         <C4 user={user}/>
+         </>
+    )
+
+}function C4(val){
+    const{user}=val
+    
+    return(
+         <>
+         <h1>C4</h1>
+         <C5 user={user}/>
+         </>
+    )
+
+}
+function C5(val){
+    const{user}=val
+    
+    return(
+         <>
+         <h1>C5 the data is {user}</h1>
+          
+         </>
+    )
+
+}
+
+================================================================================================
+
+useContext:
+
+import { createContext, useContext, useState } from "react"
+
+const userContext=createContext()
+export default function Parent2(){
+      const[user]=useState('sai')
+return(
+    <>
+    <userContext.Provider value={user}>
+    <h1>welcome useContext Hook</h1>
+    <C1/>
+    </userContext.Provider>
+    </>
+)}
+function C1( ){
+     return(
+         <>
+         <h1>C1</h1>
+         <C2  />
+         </>
+    )}
+function C2( ){
+    return(
+         <>
+         <h1>C2</h1>
+         <C3 />
+         </>
+    )
+}
+ function C3( ){
+    return(
+         <>
+         <h1>C3</h1>
+         <C4 />
+         </>
+    )
+
+}function C4( ){
+    return(
+         <>
+         <h1>C4</h1>
+         <C5  />
+         </>
+    )
+
+}
+function C5( ){
+    const user=useContext(userContext)
+    return(
+         <>
+         <h1>C5 the data is {user}</h1>
+          
+         </>
+    )
+
+}
+
+================================================================================================
+
+export default function Child1(){
+    const items=[1,232,4,34];
+    return(
+        <>
+        <ul>
+        {
+            items.map((item,i)=>(<li key={i}>{item}</li>))
+        }
+        </ul>
+    </>
+        );
+}
+
+================================================================================================
+
+Refer WhatsApp and put the remaining in VSCode:
+
+====================================
+============================================================
+
+const { useState } = require("react")
+export default function Form1()
+{
+    function formSubmit(formdata)
+    {    
+        formdata.preventDefault()
+        console.log('success............,',input.name,input.roll,input.city)
+    }
+    const [input,setInput]=useState(
+        {
+            roll:'',
+            name:'',
+            city:''
+        }
+    )
+    return(
+        <>
+        <form onSubmit={formSubmit}
+Name: <input type="text" onChange={(data)=>{setInput({...input,name:data.target.value})}}></input><br/>
+Roll: <input type="text" onChange={(data)=>{setInput({...input,roll:data.target.value})}}></input><br/>
+City: <input type="text" onChange={(data)=>{setInput({...input,city:data.target.value})}}></input><br/>
+        <input type="submit" value="signup"></input>
+        </form>
+        
+        </>
+    )
+}
+
+==================================================================================================
+
+Two ways of declaring:
+
+Name:<input type='text'
+onChange={(data)=>{setInput((preData)=>{return{...preData,name:data.target.value}})}}></input><br/>
+Name:<input type='text'
+onChange={(data)=>{setInput({...input,name:data.target.value})}}></input><br/>
+
+

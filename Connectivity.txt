@@ -1,0 +1,336 @@
+Connectivity:
+
+Create a folde=>got to that path cmd=>code .(it will open vscode)
+npm i --s express express-handlebars body-parser
+npm i -g nodemon=>to prevent restart manually...
+
+Express:
+Purpose:Express is fast,minimalist web framework for node.js.It provides tools to build web applications and APIs.
+Usage:
+To handle HTTP request and responses.
+To create routes for different endpoints (e.g., GET,POST,PUT,DELETE).
+To integerate middleware for processing requests.
+
+Example:
+
+
+==============================================================================================
+Express-Handlebars:
+Purpose:This package is an Express.js template engine for rendering dynamic HTML pages using Handlebars syntax.
+Usage:
+To serve dynamic content by combining HTML templates with JavaScript data.
+To create reusable components like headers,footers,etc., using Handlebars partials.
+
+
+==============================================================================================
+Body-Parser:
+Purpose:Body-parser is middleware that parses incoming request bodies in a middleware before your handlers,
+
+
+==============================================================================================
+App.js:
+const express=require('express');
+const exhbs=require('express-handlebars');
+const app=express();
+//Configure Handlebars...
+app.engine('hbs',exhbs.engine({layoutsDir:'viewsfold/',defaultLayout:'maincopy',extname:'hbs',}));
+//C...
+app.set('view engine','hbs');
+app.set('views','viewsfold');
+//Routes
+app.get('/',(req,res)=>{
+    const msg='test';
+    res.render('maincopy',{msg});
+});
+//Start the server
+app.listen(8000, () =>{
+    console.log("Listening on port 8000...");
+});
+
+maincopy.hbs:
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>MONGODB CRUD</title>
+    </head>
+    <body>
+        <h1>MongoDB CRUD Example</h1>
+        <p>{{msg}}</p>
+    </body>
+</html>
+
+==============================================================================================
+
+Exceute:nodemon App.js
+
+==============================================================================================
+
+
+const mongodb=require('mongodb');
+const mongoClient=mongodb.MongoClient;
+function getDatabase(){
+    //Correct MongoDB connect string
+    const client=mongoClient.connect('mongodb://127.0.0.1:27017');
+    database=client.db('crud');
+    if(!database){
+        console.log('database connected successfully');
+    }
+    else{
+        console.log("Database connection");
+    }
+    return database;
+}
+module.exports={getDatabase};
+
+==============================================================================================
+
+const express=require('express');
+const exhbs=require('express-handlebars');
+const app=express();
+const dbo=require('./db'); 
+//Configure Handlebars...
+app.engine('hbs',exhbs.engine({layoutsDir:'viewsfold/',defaultLayout:'maincopy',extname:'hbs',}));
+//C...
+app.set('view engine','hbs');
+app.set('views','viewsfold');
+//Routes
+app.get('/',async(req,res)=>{
+    let database=await dbo.getDatabase();
+    const collection=database.collection('emp')
+    const cursur=collection.find({})
+    let datas=await cursur.toArray();
+    const msg='Hiiii...Hellloo...Welcomeeeee...';
+    
+    console.log('the data',datas);
+    res.render('maincopy',{msg,datas});
+});
+/*//Routes
+app.get('/',(req,res)=>{
+    const msg='test';
+    res.render('maincopy',{msg});
+});*/
+//Start the server
+app.listen(8000, () =>{
+    console.log("Listening on port 8000...");
+});
+
+
+==============================================================================================
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>MONGODB CRUD</title>
+    </head>
+    <body>
+        <h1>MongoDB CRUD Example</h1>
+        <ul>
+            {{#each datas}}
+            <li>{{this.empid}} {{this.empname}}</li>
+            {{/each}}
+        </ul>
+        <p>{{msg}}</p>
+    </body>
+</html>
+
+==============================================================================================
+
+Part-3:
+
+const express=require('express');
+const exhbs=require('express-handlebars');
+const bodyParser=require('body-parser');
+const app=express();
+const dbo=require('./db'); 
+//Configure Handlebars...
+app.engine('hbs',exhbs.engine({layoutsDir:'viewsfold/',defaultLayout:'maincopy',extname:'hbs',}));
+//C...
+app.set('view engine','hbs');
+app.set('views','viewsfold');
+app.use(bodyParser.urlencoded({extended:true}))
+//Routes
+app.get('/',async(req,res)=>{
+    let database=await dbo.getDatabase();
+    const collection=database.collection('emp')
+    const cursur=collection.find({})
+    let datas=await cursur.toArray();
+    //const msg='Hiiii...Hellloo...Welcomeeeee...';
+    let msg='';
+    if(req.query.status=='1'){
+        msg = "Inserted Successfully...";
+    }
+    console.log('the data',datas);
+    res.render('maincopy',{msg,datas});
+});
+
+app.post("/empinfo",async(req,res) => {
+    const database=await dbo.getDatabase();
+    const collection=database.collection('emp');
+    const employee={eid:req.body.eid,ename:req.body.ename};
+    await collection.insertOne(employee);
+    res.redirect('/?status=1');
+});
+/*//Routes
+app.get('/',(req,res)=>{
+    const msg='test';
+    res.render('maincopy',{msg});
+});*/
+//Start the server
+app.listen(8000, () =>{
+    console.log("Listening on port 8000...");
+});
+
+==============================================================================================
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>MONGODB CRUD</title>
+    </head>
+    <body>
+        <h1>MongoDB CRUD Example</h1>
+        <h3> Create Form </h3>
+        <form action="/empinfo" method="post">
+        <label for="">EMP Id</label>
+        <input type="text" name="eid">
+        <label for="">EMP name</label>
+        <input type="text" name="ename">
+        <input type="submit">
+        </form><br><br><br><br>
+        <ul>
+            {{#each datas}}
+            <li>{{this.eid}} {{this.ename}}</li>
+            {{/each}}
+        </ul>
+        <p>{{msg}}</p>
+    </body>
+</html>
+
+
+const express=require('express');
+const exhbs=require('express-handlebars');
+const bodyParser=require('body-parser');
+const app=express();
+const dbo=require('./db'); 
+const objid=dbo.objectId;
+//Configure Handlebars...
+app.engine('hbs',exhbs.engine({layoutsDir:'viewsfold/',defaultLayout:'maincopy',extname:'hbs',}));
+//C...
+app.set('view engine','hbs');
+app.set('views','viewsfold');
+app.use(bodyParser.urlencoded({extended:true}))
+//Routes
+app.get('/',async(req,res)=>{
+    let database=await dbo.getDatabase();
+    const collection=database.collection('emp')
+    const cursur=collection.find({})
+    let datas=await cursur.toArray();
+    let edit_emp,edit_id;
+    //const msg='Hiiii...Hellloo...Welcomeeeee...';
+    let msg='';
+    if(req.query.edit_idd){
+        edit_id=req.query.edit_idd;
+        edit_emp=await collection.findOne({_id: new objid(edit_id)});
+    }
+    if(req.query.status=='1'){
+        msg = "Inserted Successfully...";
+    }
+    else if(req.query.status==='2'){
+        msg="Updated Successfully";
+    }
+    else if(req.query.status==='3'){
+        msg="Deleted Successfully";
+    }
+    if(req.query.delete_idd)
+        {
+            delete_id=req.query.delete_idd
+            console.log('Delete request for _id:',delete_id);
+            await collection.deleteOne({_id: new objid(delete_id)})
+            res.redirect('/?status=3');
+
+        }
+    console.log('the data',datas);
+    res.render('maincopy',{msg,datas,edit_id,edit_emp});    
+});
+
+app.post("/empinfo",async(req,res) => {
+    const database=await dbo.getDatabase();
+    const collection=database.collection('emp');
+    const employee={eid:req.body.eid,ename:req.body.ename};
+    await collection.insertOne(employee);
+    res.redirect('/?status=1');
+});
+app.post("/updateinfo/:edit_id",async(req,res) => {
+    const database=await dbo.getDatabase();
+    const collection=database.collection('emp');
+    const employee={eid:req.body.eid,ename:req.body.ename};
+    let ed_idd=req.params.e_id;
+    await collection.updateOne({_id:new objid(ed_idd)},{$set:employee});
+    res.redirect('/?status=2');
+})
+/*//Routes
+app.get('/',(req,res)=>{
+    const msg='test';
+    res.render('maincopy',{msg});
+});*/
+//Start the server
+app.listen(8000, () =>{
+    console.log("Listening on port 8000...");
+});
+
+
+const mongodb=require('mongodb');
+const mongoClient=mongodb.MongoClient;
+let database;
+let objectId=mongodb.ObjectId;
+async function getDatabase(){
+    //Correct MongoDB connect string
+    const client=await mongoClient.connect('mongodb://127.0.0.1:27017');
+    database=client.db('crud');
+    if(!database){
+        console.log('database connected successfully');
+    }
+    else{
+        console.log("Database connection");
+    }
+    return database;
+}
+module.exports={getDatabase,objectId};
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>MONGODB CRUD</title>
+    </head>
+    <body>
+        <h1>MongoDB CRUD Example</h1>
+        <h3>Edit Form</h3>
+        {{#if edit_id}}
+        <form action="/updateinfo/{{edit_id}}" method="post">
+        <label for="">EMP Id</label>
+        <input type="text" name="eid" value="{{edit_emp.eid}}">
+        <label for="">EMP name</label>
+        <input type="text" name="ename" value="{{edit_emp.ename}}">
+        <input type="submit">
+        </form><br><br><br><br>
+        {{else}}
+        <h3> Create Form </h3>
+        <form action="/empinfo" method="post">
+        <label for="">EMP Id</label>
+        <input type="text" name="eid">
+        <label for="">EMP name</label>
+        <input type="text" name="ename">
+        <input type="submit">
+        </form><br><br><br><br>
+        {{/if}}
+        <ul>
+            {{#each datas}}
+            <li>{{this.eid}} {{this.ename}} <a href="/?edit_idd={{this._id}}">Edit</a></li>
+            <a href="/?delete_idd={{this._id}}" onclick="return confirm('Are u want to del?')">Delete</a></li>
+            {{/each}}
+        </ul>
+        <br><br>
+        <p>{{msg}}</p>
+    </body>
+</html>
+

@@ -1,0 +1,857 @@
+MongoDB:
+
+show dbs;--->Fetches all the available dbs...
+
+use student;--->creates an new db named student if not available...
+
+Note:Tables are called as collections here...
+
+db.info.insertOne({name:"Akshaya Natesan",roll:11})--->For inserting values...//here info is the collection name...
+
+Output:{
+  acknowledged: true,
+  insertedId: ObjectId('678f63f28bf0079e9c0d8190')
+}
+
+db.info.find()--->to display...
+
+student> db.find()
+TypeError: db.find is not a function
+student> db.info.find()
+[
+  {
+    _id: ObjectId('678f63f28bf0079e9c0d8190'),
+    name: 'Akshaya Natesan',
+    roll: 11
+  },
+  {
+    _id: ObjectId('678f64a48bf0079e9c0d8191'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22
+  }
+]
+
+student> db.info.insertOne({name:"Akshaya Natesan",roll:11,age:18,details:{year:"II",city:"Krr"}})
+{
+  acknowledged: true,
+  insertedId: ObjectId('678f66418bf0079e9c0d8192')
+}
+
+student> db.info.insertOne({name:"Atharsha Ponnaiyram",roll:22,age:19,details:{year:"II",city:"Tvl"}})
+{
+  acknowledged: true,
+  insertedId: ObjectId('678f66858bf0079e9c0d8193')
+}
+
+student> db.info.find()
+[
+  {
+    _id: ObjectId('678f63f28bf0079e9c0d8190'),
+    name: 'Akshaya Natesan',
+    roll: 11
+  },
+  {
+    _id: ObjectId('678f64a48bf0079e9c0d8191'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22
+  },
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    age: 18,
+    details: { year: 'II', city: 'Krr' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 19,
+    details: { year: 'II', city: 'Tvl' }
+  }
+]
+
+student> db.info.findOne()--->returns only the first record/entry...
+{
+  _id: ObjectId('678f63f28bf0079e9c0d8190'),
+  name: 'Akshaya Natesan',
+  roll: 11
+}
+
+student> db.info.insertMany({name:"Hashmitha Shree N",roll:24},{name:"Rakshana Sri",roll:105})
+MongoInvalidArgumentError: Argument "docs" must be an array of documents
+student> db.info.insertMany([{name:"Hashmitha Shree N",roll:24},{name:"Rakshana Sri",roll:105}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('678f686c8bf0079e9c0d8194'),
+    '1': ObjectId('678f686c8bf0079e9c0d8195')
+  }
+}
+
+student> db.sample.find().toArray();
+
+student> db.sample.find().forEach((d)=>print("the datas are:",d));
+
+Note:If the mnumber of entries/record is more then you cant use find() to display..instead use the above two...drawback of toArray() is it doesn't iterate over all records/entries...
+
+student> db.sample.find({language:
+... "Hindi"});//if came to next line ... comes...then this is to apply filters...
+
+Searching of nested documents:
+
+student> db.info.find(details.year:"II")
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:25)
+
+> 1 | db.info.find(details.year:"II")
+    |                          ^
+  2 |
+
+student> db.info.find({details.year:"II"})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:21)
+
+> 1 | db.info.find({details.year:"II"})
+    |                      ^
+  2 |
+
+student> db.info.find({"details.year":"II"})
+[
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    age: 18,
+    details: { year: 'II', city: 'Krr' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 19,
+    details: { year: 'II', city: 'Tvl' }
+  }
+]
+student> db.info.find({'details.year':"II"})
+[
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    age: 18,
+    details: { year: 'II', city: 'Krr' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 19,
+    details: { year: 'II', city: 'Tvl' }
+  }
+]
+
+=====================================================================================================
+
+student> db.info.find();
+[
+  {
+    _id: ObjectId('678f63f28bf0079e9c0d8190'),
+    name: 'Akshaya Natesan',
+    roll: 11
+  },
+  {
+    _id: ObjectId('678f64a48bf0079e9c0d8191'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22
+  },
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    age: 18,
+    details: { year: 'II', city: 'Krr' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 19,
+    details: { year: 'II', city: 'Tvl' }
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8194'),
+    name: 'Hashmitha Shree N',
+    roll: 24
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8195'),
+    name: 'Rakshana Sri',
+    roll: 105
+  }
+]
+
+student> db.info.updateOne({roll:22},{$set:{age:26}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+student> db.info.find();
+[
+  {
+    _id: ObjectId('678f63f28bf0079e9c0d8190'),
+    name: 'Akshaya Natesan',
+    roll: 11
+  },
+  {
+    _id: ObjectId('678f64a48bf0079e9c0d8191'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 26
+  },
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    age: 18,
+    details: { year: 'II', city: 'Krr' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 19,
+    details: { year: 'II', city: 'Tvl' }
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8194'),
+    name: 'Hashmitha Shree N',
+    roll: 24
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8195'),
+    name: 'Rakshana Sri',
+    roll: 105
+  }
+]
+
+student> db.info.updateOne(
+... {name:'Akshaya Natesan'},{$set:{'details.year':'2nd'}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+student> db.info.find();
+[
+  {
+    _id: ObjectId('678f63f28bf0079e9c0d8190'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    details: { year: '2nd' }
+  },
+  {
+    _id: ObjectId('678f64a48bf0079e9c0d8191'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 26
+  },
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    age: 18,
+    details: { year: 'II', city: 'Krr' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 19,
+    details: { year: 'II', city: 'Tvl' }
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8194'),
+    name: 'Hashmitha Shree N',
+    roll: 24
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8195'),
+    name: 'Rakshana Sri',
+    roll: 105
+  }
+]
+
+student> db.info.updateOne( { name: 'Akshaya Natesan' }, { $set: { 'details.year': 'II' } });
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+student> db.info.find();
+[
+  {
+    _id: ObjectId('678f63f28bf0079e9c0d8190'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    details: { year: 'II' }
+  },
+  {
+    _id: ObjectId('678f64a48bf0079e9c0d8191'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 26
+  },
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    age: 18,
+    details: { year: 'II', city: 'Krr' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 19,
+    details: { year: 'II', city: 'Tvl' }
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8194'),
+    name: 'Hashmitha Shree N',
+    roll: 24
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8195'),
+    name: 'Rakshana Sri',
+    roll: 105
+  }
+]
+
+student> db.info.updateMany({roll:22},{$set:{age:35}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+
+student> db.info.find();
+[
+  {
+    _id: ObjectId('678f63f28bf0079e9c0d8190'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    details: { year: 'II' }
+  },
+  {
+    _id: ObjectId('678f64a48bf0079e9c0d8191'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 35
+  },
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    age: 18,
+    details: { year: 'II', city: 'Krr' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 35,
+    details: { year: 'II', city: 'Tvl' }
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8194'),
+    name: 'Hashmitha Shree N',
+    roll: 24
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8195'),
+    name: 'Rakshana Sri',
+    roll: 105
+  }
+]
+
+db.info.updateMany({name:'Akshaya Natesan'},{$set:{age:'eighteen',roll:"eleven"}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+
+student> db.info.find();
+[
+  {
+    _id: ObjectId('678f63f28bf0079e9c0d8190'),
+    name: 'Akshaya Natesan',
+    roll: 'eleven',
+    details: { year: 'II' },
+    age: 'eighteen'
+  },
+  {
+    _id: ObjectId('678f64a48bf0079e9c0d8191'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 35
+  },
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    name: 'Akshaya Natesan',
+    roll: 'eleven',
+    age: 'eighteen',
+    details: { year: 'II', city: 'Krr' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 35,
+    details: { year: 'II', city: 'Tvl' }
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8194'),
+    name: 'Hashmitha Shree N',
+    roll: 24
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8195'),
+    name: 'Rakshana Sri',
+    roll: 105
+  }
+]
+
+student> db.info.updateMany({name:'Akshaya Natesan'},{$set:{age:18,roll:11}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+
+student> db.info.find();
+[
+  {
+    _id: ObjectId('678f63f28bf0079e9c0d8190'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    details: { year: 'II' },
+    age: 18
+  },
+  {
+    _id: ObjectId('678f64a48bf0079e9c0d8191'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 35
+  },
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    age: 18,
+    details: { year: 'II', city: 'Krr' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 35,
+    details: { year: 'II', city: 'Tvl' }
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8194'),
+    name: 'Hashmitha Shree N',
+    roll: 24
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8195'),
+    name: 'Rakshana Sri',
+    roll: 105
+  }
+]
+
+student>student> db.info.updateOne({name:'Atharsha Ponnaiyram',roll:22,details:{$exists:true}},{$set:{age:56}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+student> db.info.find();
+[
+  {
+    _id: ObjectId('678f63f28bf0079e9c0d8190'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    details: { year: 'II' },
+    age: 18
+  },
+  {
+    _id: ObjectId('678f64a48bf0079e9c0d8191'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 35
+  },
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    age: 18,
+    details: { year: 'II', city: 'Krr' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 56,
+    details: { year: 'II', city: 'Tvl' }
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8194'),
+    name: 'Hashmitha Shree N',
+    roll: 24
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8195'),
+    name: 'Rakshana Sri',
+    roll: 105
+  }
+]
+
+student> db.info.updateOne({_id:'678f64a48bf0079e9c0d8191',{$set:{age:56}});
+Uncaught:
+SyntaxError: Unexpected token (1:50)
+
+> 1 | db.info.updateOne({_id:'678f64a48bf0079e9c0d8191',{$set:{age:56}});
+    |                                                   ^
+  2 |
+
+student> db.info.updateOne({_id:'678f64a48bf0079e9c0d8191'},{$set:{age:56}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+
+student> db.info.updateOne({_id:ObjectId('678f64a48bf0079e9c0d8191')},{$set:{age:56}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+student> db.info.find();
+[
+  {
+    _id: ObjectId('678f63f28bf0079e9c0d8190'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    details: { year: 'II' },
+    age: 18
+  },
+  {
+    _id: ObjectId('678f64a48bf0079e9c0d8191'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 56
+  },
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    age: 18,
+    details: { year: 'II', city: 'Krr' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 56,
+    details: { year: 'II', city: 'Tvl' }
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8194'),
+    name: 'Hashmitha Shree N',
+    roll: 24
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8195'),
+    name: 'Rakshana Sri',
+    roll: 105
+  }
+]
+
+student>db.info.deleteOne({name:"Akshaya Natesan"})
+
+Note:find--->gonna to return cursor object...provides two functions--->toArray() and forEach()...
+
+student> show Collections;
+MongoshInvalidInputError: [COMMON-10001] 'Collections' is not a valid argument for "show".
+student> show collections;
+Courses
+info
+sample
+
+student> db.createCollection('Courses',{});
+{ ok: 1 }
+student> db.Courses.insertOne({name:'Akshaya Natesan',cid:101,cname:"DS"});
+{
+  acknowledged: true,
+  insertedId: ObjectId('67907488e1ad32c5640d8190')
+}
+
+Projection:
+
+student> db.info.find({},{name:1});
+[
+  {
+    _id: ObjectId('678f63f28bf0079e9c0d8190'),
+    name: 'Akshaya Natesan'
+  },
+  {
+    _id: ObjectId('678f64a48bf0079e9c0d8191'),
+    name: 'Atharsha Ponnaiyram'
+  },
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    name: 'Akshaya Natesan'
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    name: 'Atharsha Ponnaiyram'
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8194'),
+    name: 'Hashmitha Shree N'
+  },
+  { _id: ObjectId('678f686c8bf0079e9c0d8195'), name: 'Rakshana Sri' }
+]
+student> db.info.find({},{details:1});
+[
+  {
+    _id: ObjectId('678f63f28bf0079e9c0d8190'),
+    details: { year: 'II' }
+  },
+  { _id: ObjectId('678f64a48bf0079e9c0d8191') },
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    details: { year: 'II', city: 'Krr' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    details: { year: 'II', city: 'Tvl' }
+  },
+  { _id: ObjectId('678f686c8bf0079e9c0d8194') },
+  { _id: ObjectId('678f686c8bf0079e9c0d8195') }
+]
+student> db.info.find({},{'details.city':1});
+[
+  { _id: ObjectId('678f63f28bf0079e9c0d8190'), details: {} },
+  { _id: ObjectId('678f64a48bf0079e9c0d8191') },
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    details: { city: 'Krr' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    details: { city: 'Tvl' }
+  },
+  { _id: ObjectId('678f686c8bf0079e9c0d8194') },
+  { _id: ObjectId('678f686c8bf0079e9c0d8195') }
+]
+student> db.info.find({},{'details.year':1});
+[
+  {
+    _id: ObjectId('678f63f28bf0079e9c0d8190'),
+    details: { year: 'II' }
+  },
+  { _id: ObjectId('678f64a48bf0079e9c0d8191') },
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    details: { year: 'II' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    details: { year: 'II' }
+  },
+  { _id: ObjectId('678f686c8bf0079e9c0d8194') },
+  { _id: ObjectId('678f686c8bf0079e9c0d8195') }
+]
+
+student> db.info.find();
+[
+  {
+    _id: ObjectId('678f63f28bf0079e9c0d8190'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    details: { year: 'II' },
+    age: 18
+  },
+  {
+    _id: ObjectId('678f64a48bf0079e9c0d8191'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 56
+  },
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    age: 18,
+    details: { year: 'II', city: 'Krr' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 56,
+    details: { year: 'II', city: 'Tvl' }
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8194'),
+    name: 'Hashmitha Shree N',
+    roll: 24
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8195'),
+    name: 'Rakshana Sri',
+    roll: 105
+  }
+]
+student> db.info.find({}).limit(6);
+[
+  {
+    _id: ObjectId('678f63f28bf0079e9c0d8190'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    details: { year: 'II' },
+    age: 18
+  },
+  {
+    _id: ObjectId('678f64a48bf0079e9c0d8191'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 56
+  },
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    age: 18,
+    details: { year: 'II', city: 'Krr' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 56,
+    details: { year: 'II', city: 'Tvl' }
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8194'),
+    name: 'Hashmitha Shree N',
+    roll: 24
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8195'),
+    name: 'Rakshana Sri',
+    roll: 105
+  }
+]
+student> db.info.find({}).limit(7);
+[
+  {
+    _id: ObjectId('678f63f28bf0079e9c0d8190'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    details: { year: 'II' },
+    age: 18
+  },
+  {
+    _id: ObjectId('678f64a48bf0079e9c0d8191'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 56
+  },
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    age: 18,
+    details: { year: 'II', city: 'Krr' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 56,
+    details: { year: 'II', city: 'Tvl' }
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8194'),
+    name: 'Hashmitha Shree N',
+    roll: 24
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8195'),
+    name: 'Rakshana Sri',
+    roll: 105
+  }
+]
+student> db.info.find({}).skip(7);
+
+student> db.info.find({}).skip(2);
+[
+  {
+    _id: ObjectId('678f66418bf0079e9c0d8192'),
+    name: 'Akshaya Natesan',
+    roll: 11,
+    age: 18,
+    details: { year: 'II', city: 'Krr' }
+  },
+  {
+    _id: ObjectId('678f66858bf0079e9c0d8193'),
+    name: 'Atharsha Ponnaiyram',
+    roll: 22,
+    age: 56,
+    details: { year: 'II', city: 'Tvl' }
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8194'),
+    name: 'Hashmitha Shree N',
+    roll: 24
+  },
+  {
+    _id: ObjectId('678f686c8bf0079e9c0d8195'),
+    name: 'Rakshana Sri',
+    roll: 105
+  }
+]
+
+
+==========================================================================================================
+
+npm i mongoose--->reduces number of lines of code...
